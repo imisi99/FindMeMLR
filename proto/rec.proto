@@ -1,0 +1,17 @@
+syntax="proto3";
+
+package recommendation;
+
+service RecommendationService {
+  rpc ProjectRecommendation(RecommendationRequest) returns (RecommendationResponse);
+  rpc UserRecommendation(RecommendationRequest) returns (RecommendationResponse);
+}
+
+message RecommendationRequest {
+  string id = 1;
+}
+
+message RecommendationResponse {
+  bool success = 1;
+  repeated string ids = 2;
+}

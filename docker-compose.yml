@@ -1,0 +1,19 @@
+services:
+  rec:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: findme_rec
+    restart: always
+    ports: 
+      - "8050:8050"
+    depends_on:
+      qdrant:
+        condition: service_healthy
+    networks:
+      - findme-shared-network
+
+networks:
+  findme-shared-network:
+    driver: bridge
+

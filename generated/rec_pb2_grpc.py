@@ -35,12 +35,12 @@ class RecommendationServiceStub(object):
             channel: A grpc.Channel.
         """
         self.ProjectRecommendation = channel.unary_unary(
-                '/recommendation.RecommendationService/ProjectRecommendation',
+                '/rec.RecommendationService/ProjectRecommendation',
                 request_serializer=rec__pb2.RecommendationRequest.SerializeToString,
                 response_deserializer=rec__pb2.RecommendationResponse.FromString,
                 _registered_method=True)
         self.UserRecommendation = channel.unary_unary(
-                '/recommendation.RecommendationService/UserRecommendation',
+                '/rec.RecommendationService/UserRecommendation',
                 request_serializer=rec__pb2.RecommendationRequest.SerializeToString,
                 response_deserializer=rec__pb2.RecommendationResponse.FromString,
                 _registered_method=True)
@@ -76,9 +76,9 @@ def add_RecommendationServiceServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'recommendation.RecommendationService', rpc_method_handlers)
+            'rec.RecommendationService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('recommendation.RecommendationService', rpc_method_handlers)
+    server.add_registered_method_handlers('rec.RecommendationService', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
@@ -99,7 +99,7 @@ class RecommendationService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/recommendation.RecommendationService/ProjectRecommendation',
+            '/rec.RecommendationService/ProjectRecommendation',
             rec__pb2.RecommendationRequest.SerializeToString,
             rec__pb2.RecommendationResponse.FromString,
             options,
@@ -126,7 +126,7 @@ class RecommendationService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/recommendation.RecommendationService/UserRecommendation',
+            '/rec.RecommendationService/UserRecommendation',
             rec__pb2.RecommendationRequest.SerializeToString,
             rec__pb2.RecommendationResponse.FromString,
             options,

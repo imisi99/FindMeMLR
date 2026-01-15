@@ -1,6 +1,8 @@
 syntax="proto3";
 
-package recommendation;
+package rec;
+
+option go_package = "./rec";
 
 service RecommendationService {
   rpc ProjectRecommendation(RecommendationRequest) returns (RecommendationResponse);

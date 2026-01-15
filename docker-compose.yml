@@ -5,15 +5,14 @@ services:
       dockerfile: Dockerfile
     container_name: findme_rec
     restart: always
+    environment:
+      - QDRANT_HOST=${QDRANT_HOST}
+      - QDRANT_PORT=${QDRANT_PORT}
     ports: 
       - "8050:8050"
-    depends_on:
-      qdrant:
-        condition: service_healthy
     networks:
       - findme-shared-network
 
 networks:
   findme-shared-network:
-    driver: bridge
-
+    external: true

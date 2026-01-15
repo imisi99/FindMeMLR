@@ -24,17 +24,18 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\trec.proto\x12\x0erecommendation\"#\n\x15RecommendationRequest\x12\n\n\x02id\x18\x01 \x01(\t\"6\n\x16RecommendationResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0b\n\x03ids\x18\x02 \x03(\t2\xe4\x01\n\x15RecommendationService\x12\x66\n\x15ProjectRecommendation\x12%.recommendation.RecommendationRequest\x1a&.recommendation.RecommendationResponse\x12\x63\n\x12UserRecommendation\x12%.recommendation.RecommendationRequest\x1a&.recommendation.RecommendationResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\trec.proto\x12\x03rec\"#\n\x15RecommendationRequest\x12\n\n\x02id\x18\x01 \x01(\t\"6\n\x16RecommendationResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0b\n\x03ids\x18\x02 \x03(\t2\xb8\x01\n\x15RecommendationService\x12P\n\x15ProjectRecommendation\x12\x1a.rec.RecommendationRequest\x1a\x1b.rec.RecommendationResponse\x12M\n\x12UserRecommendation\x12\x1a.rec.RecommendationRequest\x1a\x1b.rec.RecommendationResponseB\x07Z\x05./recb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'rec_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
-  DESCRIPTOR._loaded_options = None
-  _globals['_RECOMMENDATIONREQUEST']._serialized_start=29
-  _globals['_RECOMMENDATIONREQUEST']._serialized_end=64
-  _globals['_RECOMMENDATIONRESPONSE']._serialized_start=66
-  _globals['_RECOMMENDATIONRESPONSE']._serialized_end=120
-  _globals['_RECOMMENDATIONSERVICE']._serialized_start=123
-  _globals['_RECOMMENDATIONSERVICE']._serialized_end=351
+  _globals['DESCRIPTOR']._loaded_options = None
+  _globals['DESCRIPTOR']._serialized_options = b'Z\005./rec'
+  _globals['_RECOMMENDATIONREQUEST']._serialized_start=18
+  _globals['_RECOMMENDATIONREQUEST']._serialized_end=53
+  _globals['_RECOMMENDATIONRESPONSE']._serialized_start=55
+  _globals['_RECOMMENDATIONRESPONSE']._serialized_end=109
+  _globals['_RECOMMENDATIONSERVICE']._serialized_start=112
+  _globals['_RECOMMENDATIONSERVICE']._serialized_end=296
 # @@protoc_insertion_point(module_scope)

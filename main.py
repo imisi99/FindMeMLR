@@ -13,6 +13,10 @@ logging.basicConfig(
     style="{",
 )
 
+# TODO:
+# The project should have a user id to prevent it from recommending the curr user projects
+# (This would be implemented in the emb service first) then filter on search here.
+
 
 def serve():
     db.QDRANT_CLIENT = db.qdrant_client_connect()

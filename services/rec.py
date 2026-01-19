@@ -16,6 +16,7 @@ class RecommendationService(RecommendationServiceServicer):
                 collection_name="users", ids=[id], with_vectors=True
             )
             if not existing:
+                logging.info(f"Failed to retrieve user with id -> {id}, not found")
                 context.set_code(grpc.StatusCode.NOT_FOUND)
                 context.set_details(f"User {id} does not exist")
                 return rec_pb2.RecommendationResponse(success=False, ids=[])
@@ -25,8 +26,6 @@ class RecommendationService(RecommendationServiceServicer):
             if isinstance(user_vector, dict):
                 user_vector = list(user_vector.values())[0]
 
-            logging.info(user_vector)
-
             response = client.query_points(
                 collection_name="projects",
                 query=user_vector,
@@ -34,14 +33,24 @@ class RecommendationService(RecommendationServiceServicer):
             )
 
             ids = []
+            avg_score = 0
 
             for point in response.points:
-                logging.info(point)
                 ids.append(point.id)
+                avg_score += point.score
 
+            if len(ids) != 0:
+                avg_score /= len(ids)
+
+            logging.info(
+                f"Recommended {len(ids)} projects for user with an average score of {avg_score}"
+            )
             return rec_pb2.RecommendationResponse(success=True, ids=ids)
 
         except Exception as e:
+            logging.error(
+                f"An error occured while trying to recommend projects for user with id -> {id}, err -> {str(e)}"
+            )
             context.set_code(grpc.StatusCode.INTERNAL)
             context.set_details(
                 f"Failed to retrieve project recommendation -> {str(e)}"
@@ -56,6 +65,7 @@ class RecommendationService(RecommendationServiceServicer):
 
             existing = client.retrieve(collection_name="projects", ids=[id])
             if not existing:
+                logging.info(f"Failed to retrieve project with id -> {id}, not found")
                 context.set_code(grpc.StatusCode.NOT_FOUND)
                 context.set_details(f"Project {id} does not exist")
                 return rec_pb2.RecommendationResponse(success=False, ids=[])
@@ -65,21 +75,30 @@ class RecommendationService(RecommendationServiceServicer):
             if isinstance(project_vector, dict):
                 project_vector = list(project_vector.values())[0]
 
-            logging.info(project_vector)
-
             response = client.query_points(
                 collection_name="users", query=project_vector, limit=15
             )
 
             ids = []
+            avg_score = 0
 
             for point in response.points:
-                logging.info(point)
                 ids.append(point.id)
+                avg_score += point.score
+
+            if len(ids) != 0:
+                avg_score /= len(ids)
+
+            logging.info(
+                f"Recommended {len(ids)} users for project with an average score of {avg_score}"
+            )
 
             return rec_pb2.RecommendationResponse(success=True, ids=ids)
 
         except Exception as e:
+            logging.error(
+                f"An error occured while trying to recommend users for project with id -> {id}, err -> {str(e)}"
+            )
             context.set_code(grpc.StatusCode.INTERNAL)
             context.set_details(f"Failed to retrieve user recommendation -> {str(e)}")
             return rec_pb2.RecommendationResponse(success=False, ids=[])

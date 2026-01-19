@@ -8,8 +8,6 @@ services:
     environment:
       - QDRANT_HOST=${QDRANT_HOST}
       - QDRANT_PORT=${QDRANT_PORT}
-    ports: 
-      - "8050:8050"
     networks:
       - findme-shared-network
 

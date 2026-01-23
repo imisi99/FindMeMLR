@@ -23,12 +23,24 @@ class RecommendationService(RecommendationServiceServicer):
 
             user_vector = existing[0].vector
 
+            if user_vector is None:
+                logging.info(f"User with id -> {id} exists but the vector doesn't")
+                context.set_code(grpc.StatusCode.NOT_FOUND)
+                context.set_details(f"User {id} exists but the vector doesn't")
+                return rec_pb2.RecommendationResponse(success=False, ids=[])
+
             if isinstance(user_vector, dict):
-                user_vector = list(user_vector.values())[0]
+                user_vector = user_vector.get("profile")
+                if user_vector is None:
+                    logging.info(f"User with id -> {id} has no named vector 'user'")
+                    context.set_code(grpc.StatusCode.NOT_FOUND)
+                    context.set_details(f"User {id} has no named vector 'user'")
+                    return rec_pb2.RecommendationResponse(success=False, ids=[])
 
             response = client.query_points(
                 collection_name="projects",
                 query=user_vector,
+                using="description",
                 limit=15,
             )
 
@@ -72,11 +84,22 @@ class RecommendationService(RecommendationServiceServicer):
 
             project_vector = existing[0].vector
 
+            if project_vector is None:
+                logging.info(f"User with id -> {id} exists but the vector doesn't")
+                context.set_code(grpc.StatusCode.NOT_FOUND)
+                context.set_details(f"User {id} exists but the vector doesn't")
+                return rec_pb2.RecommendationResponse(success=False, ids=[])
+
             if isinstance(project_vector, dict):
-                project_vector = list(project_vector.values())[0]
+                project_vector = project_vector.get("profile")
+                if project_vector is None:
+                    logging.info(f"User with id -> {id} has no named vector 'user'")
+                    context.set_code(grpc.StatusCode.NOT_FOUND)
+                    context.set_details(f"User {id} has no named vector 'user'")
+                    return rec_pb2.RecommendationResponse(success=False, ids=[])
 
             response = client.query_points(
-                collection_name="users", query=project_vector, limit=15
+                collection_name="users", query=project_vector, using="profile", limit=15
             )
 
             ids = []

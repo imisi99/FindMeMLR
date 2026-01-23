@@ -25,11 +25,13 @@ def ensure_collections(client: QdrantClient):
         try:
             client.create_collection(
                 collection_name="users",
-                vectors_config=VectorParams(size=VECTOR_SIZE, distance=Distance.COSINE),
+                vectors_config={
+                    "profile": VectorParams(size=VECTOR_SIZE, distance=Distance.COSINE),
+                },
             )
+            logging.info("[QDRANT] Users collection created.")
         except Exception as e:
             logging.error("[QDRANT] Failed to create the users collection -> %s", e)
-        logging.info("[QDRANT] Users collection created.")
 
     if "projects" not in existing:
         logging.info("[QDRANT] Creating projects collections as it did not exist.")
@@ -37,12 +39,16 @@ def ensure_collections(client: QdrantClient):
         try:
             client.create_collection(
                 collection_name="projects",
-                vectors_config=VectorParams(size=VECTOR_SIZE, distance=Distance.COSINE),
+                vectors_config={
+                    "description": VectorParams(
+                        size=VECTOR_SIZE, distance=Distance.COSINE
+                    )
+                },
             )
+            logging.info("[QDRANT] Projects collection created.")
         except Exception as e:
             logging.error("[QDRANT] Failed to create the project collection. -> %s", e)
             raise
-        logging.info("[QDRANT] Projects collection created.")
 
 
 def get_qdrant_client() -> QdrantClient:
